@@ -486,6 +486,12 @@ void jsonCmdReceiveHandler(){
 												jsonCmdReceive["module"]
 												);
 												break;
+  case CMD_GIMBAL_PID_SET: gimbalPidSet(
+                        jsonCmdReceive["P"],
+                        jsonCmdReceive["I"],
+                        jsonCmdReceive["D"]
+                        );
+												break;
 	}
 }
 

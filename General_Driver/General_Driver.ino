@@ -100,7 +100,7 @@ void moduleType_Gimbal() {
 void setup() {
   Serial.begin(115200);
   Wire.begin(S_SDA, S_SCL);
-  while(!Serial) {}
+//  while(!Serial) {}
 
   ina219_init();
   inaDataUpdate();
@@ -128,6 +128,7 @@ void setup() {
 
   // functions for IMU.
   imu_init();
+  gimbalSteadyInit();
 
   // functions for the leds on ugv.
   led_pin_init();

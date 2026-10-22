@@ -573,3 +573,6 @@
 // {"T":900,"main":1,"module":0}
 // main_type: 1-WAVE ROVER, 2-UGV02, 3-UGV01
 #define CMD_MM_TYPE_SET 900
+// gimbal PID settings from host
+// {"T":1400,"P":0.25,"I":0.005,"D":0.15}
+#define CMD_GIMBAL_PID_SET 1400

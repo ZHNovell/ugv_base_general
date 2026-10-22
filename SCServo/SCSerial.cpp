@@ -72,4 +72,6 @@ void SCSerial::rFlushSCS()
 
 void SCSerial::wFlushSCS()
 {
+    pSerial->flush();  // блокирует, пока TX FIFO не опустеет
+    rFlushSCS();       // очищает эхо из RX-буфера
 }

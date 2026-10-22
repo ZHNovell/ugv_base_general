@@ -1,3 +1,10 @@
+#include <INST.h>
+#include <SCS.h>
+#include <SCSCL.h>
+#include <SCSerial.h>
+#include <SCServo.h>
+#include <SMS_STS.h>
+
 // the uart used to control servos.
 // GPIO 18 - S_RXD, GPIO 19 - S_TXD, as default.
 #define RoArmM2_Servo_RXD 18
@@ -40,7 +47,7 @@ byte mainType = 1;
 // 0: [Base default] without RoArm-M2 and gimbal.
 // 1: [RoArm default] RoArm-M2 mounted on the UGV.
 // 2: [Gimbal default] Gimbal mounted on the UGV.
-byte moduleType = 0;
+byte moduleType = 2;
 
 // false: gimbal steady mode off.
 //  true: gimbal steady mode on.
@@ -48,7 +55,7 @@ bool steadyMode = false;
 
 // 0: turn off base info feedback flow.
 // 1: [default] turn on base info feedback flow.
-bool baseFeedbackFlow = 0;
+bool baseFeedbackFlow = 1;
 
 String thisMacStr;
 
@@ -343,8 +350,8 @@ float windup_limits = 255;
 // #define SET_MOTOR_DIR true
 
 double WHEEL_D = 0.0800;
-int ONE_CIRCLE_PLUSES = 1650;
-double TRACK_WIDTH = 0.172;
+int ONE_CIRCLE_PLUSES = 2100;
+double TRACK_WIDTH = 0.125;
 bool SET_MOTOR_DIR = false;
 
 
@@ -357,7 +364,7 @@ int IO5_CH = 8;
 const uint16_t FREQ = 200;
 
 int feedbackFlowExtraDelay = 0;
-bool uartCmdEcho = 1;
+bool uartCmdEcho = 0;
 
 #define GIMBAL_PAN_ID  2
 #define GIMBAL_TILT_ID 1

@@ -108,7 +108,7 @@ void imuAHRSupdate(float gx, float gy, float gz, float ax, float ay, float az, f
   float hx, hy, hz, bx, bz;
   float vx, vy, vz, wx, wy, wz;
   float exInt = 0.0, eyInt = 0.0, ezInt = 0.0;
-  float ex, ey, ez, halfT = 0.024f; /*half the sample period*/
+  float ex, ey, ez, halfT = 0.005f; /*half the sample period*/
 
   float q0q0 = q0 * q0;
   float q0q1 = q0 * q1;

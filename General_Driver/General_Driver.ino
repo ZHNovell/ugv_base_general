@@ -128,7 +128,6 @@ void setup() {
 
   // functions for IMU.
   imu_init();
-  gimbalSteadyInit();
 
   // functions for the leds on ugv.
   led_pin_init();

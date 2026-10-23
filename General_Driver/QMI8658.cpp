@@ -380,9 +380,9 @@ void QMI8658::config_reg(unsigned char low_power)
 	{
 		g_imu.cfg.enSensors = QMI8658_ACCGYR_ENABLE;
 		g_imu.cfg.accRange = Qmi8658AccRange_16g;
-		g_imu.cfg.accOdr = Qmi8658AccOdr_500Hz;   // было 1000Hz
+		g_imu.cfg.accOdr = Qmi8658AccOdr_1000Hz;
 		g_imu.cfg.gyrRange = Qmi8658GyrRange_2048dps;
-		g_imu.cfg.gyrOdr = Qmi8658GyrOdr_500Hz;   // было 1000Hz
+		g_imu.cfg.gyrOdr = Qmi8658GyrOdr_1000Hz;
 	}
 
 	if(g_imu.cfg.enSensors & QMI8658_ACC_ENABLE)

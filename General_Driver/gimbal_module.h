@@ -58,6 +58,8 @@ void gimbalCtrlMove(float Xinput, float Yinput, float spdInputX, float spdInputY
   st.SyncWritePosEx(gimbalID, 2, gimbalPos, gimbalSpd, gimbalAcc);
 }
 
+
+//mapFloat(float value, float fromLow, float fromHigh, float toLow, float toHigh)
 float panAngleCompute(int inputPos) {
   return mapFloat((inputPos - 2047), 0, 4095, 0, 360);
 }
@@ -130,73 +132,14 @@ void gimbalSteadySet(bool inputCmd, float inputY) {
   steadyGoalY = inputY;
 }
 
-// --- ПИД для стабилизации PT (самописный, без PID_v2) ---
-float pid_p = 0.35f;
-float pid_i = 0.005f;
-float pid_d = 0.15f;
-
-float steady_integral = 0.0f;
-float steady_last_error = 0.0f;
-unsigned long steady_last_time = 0;
-
-float filtered_pitch = 0.0f;
-bool filter_initialized = false;
-
-void gimbalSteadyInit() {
-  steady_integral = 0.0f;
-  steady_last_error = 0.0f;
-  steady_last_time = 0;
-  filter_initialized = false;
-}
 
 void gimbalSteady(float inputBiasY) {
   if (!steadyMode) {
-    steady_integral = 0.0f;
-    steady_last_error = 0.0f;
-    filter_initialized = false;
     return;
   }
-
-  unsigned long current_time = millis();
-  float dt = (current_time - steady_last_time) / 1000.0f;
-
-  if (steady_last_time == 0 || dt <= 0.0f || dt > 0.1f) {
-    dt = 0.01f;
-    steady_last_error = inputBiasY - icm_pitch;
-  }
-  steady_last_time = current_time;
-
-  if (!filter_initialized) {
-    filtered_pitch = icm_pitch;
-    filter_initialized = true;
-  }
-  filtered_pitch = (0.05f * icm_pitch) + (0.95f * filtered_pitch);
-
-  float error = inputBiasY - filtered_pitch;
-
-  float p_term = pid_p * error;
-
-  steady_integral += error * dt;
-  steady_integral = constrain(steady_integral, -5.0f, 5.0f);
-  float i_term = pid_i * steady_integral;
-
-  float derivative = (error - steady_last_error) / dt;
-  float d_term = pid_d * derivative;
-  steady_last_error = error;
-
-  float compensation = p_term + i_term + d_term;
-  compensation = constrainFloat(compensation, -30.0f, 90.0f);
-
-  gimbalCtrlSimple(0, compensation, 0, 0);
+  gimbalCtrlSimple(0, inputBiasY - icm_pitch, 0, 0);
 }
 
-// Установка коэффициентов ПИД извне (команда T:1400)
-void gimbalPidSet(float p, float i, float d) {
-  pid_p = p;
-  pid_i = i;
-  pid_d = d;
-  Serial.printf("Gimbal PID set: P=%.3f I=%.4f D=%.3f\n", p, i, d);
-}
 
 void gimbalUserCtrl(int inputX, int inputY, int inputSpd) {
   static float goalX = 0;
@@ -251,4 +194,5 @@ void gimbalUserCtrl(int inputX, int inputY, int inputSpd) {
       goalY = tiltAngleCompute(gimbalFeedback[1].pos);
     }
   }
+
 }

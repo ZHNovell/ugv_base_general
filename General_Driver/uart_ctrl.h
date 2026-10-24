@@ -4,7 +4,6 @@ void jsonCmdReceiveHandler(){
         case CMD_EMERGENCY_STOP:
             emergencyStopProcessing();
             setGoalSpeed(0, 0);
-            ddsm_ctrl_loop_web(0, 0); // немедленная остановка
             break;
         case CMD_RESET_EMERGENCY:
             heartbeatStopFlag = false;

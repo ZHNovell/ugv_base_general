@@ -44,6 +44,34 @@ To ensure compatibility with various types of robots. You can configure the robo
 
 In this command, the s directive denotes a robot-type setting. The first digit, `2`, signifies that the main type of robot is a `UGV Rover`, with `1` representing `RaspRover` and `3` indicating `UGV Beast`. The second digit, `2`, specifies the module as `Camera PT`, where `0` denotes `Nothing` and `1` signifies `RoArm-M2`.
 
+# UGV Base General (ESP32) - WAVE ROVER
+
+Прошивка для нижней платы **General Driver for Robots** (ESP32-WROOM-32UE) на шасси **WAVE ROVER**.
+
+## 🎯 Что добавлено (по сравнению с заводской прошивкой Waveshare)
+
+1. **Аварийная остановка (`{"T":0}`)** — мгновенная остановка моторов.
+2. **Исправлен `heartBeatCtrl`** — теперь использует `millis()` и реально останавливает робота при потере связи (3 секунды).
+3. **FreeRTOS-задача для стабилизации PT (`gimbalStabilizerTask`)** — работает на 200 Гц, не зависит от `loop()` (устраняет «кивки»).
+4. **Kalman Filter для `icm_pitch`** — сглаживает наклон, можно менять параметры на лету командой `{"T":1401,"Q":0.01,"R":0.1,"P":0.01}`.
+5. **STOP на джойстике ESP32** — центральная кнопка теперь отправляет `{"T":0}`.
+
+## 📡 Команды (JSON)
+
+| Команда | JSON | Описание |
+|---|---|---|
+| Emergency Stop | `{"T":0}` | Мгновенная остановка моторов |
+| Kalman Tuning | `{"T":1401,"Q":0.01,"R":0.1,"P":0.01}` | Настройка фильтра Калмана для pitch |
+| Gimbal Steady | `{"T":137,"s":1,"y":0}` | Включить/выключить стабилизацию PT |
+
+## 🛠️ Прошивка
+
+1. Откройте `General_Driver/General_Driver.ino` в Arduino IDE.
+2. Выберите плату **ESP32 Dev Module**.
+3. Прошейте.
+
+**Важно:** Для стабилизации PT требуется установленная библиотека `SimpleKalmanFilter` (через Library Manager).
+
 # License
 ugv_base_general for the Waveshare UGV Robots: an open source robotics platform for the Robots based on **General Driver**.
 Copyright (C) 2024 [Waveshare](https://www.waveshare.com/)

@@ -4,10 +4,14 @@ void jsonCmdReceiveHandler(){
         case CMD_EMERGENCY_STOP:
             emergencyStopProcessing();
             setGoalSpeed(0, 0);
-            ddsm_ctrl_loop_web(0, 0); // немедленная остановка
             break;
         case CMD_RESET_EMERGENCY:
             heartbeatStopFlag = false;
+            break;
+        case CMD_SET_KALMAN:
+            if (jsonCmdReceive.containsKey("Q") && jsonCmdReceive.containsKey("R") && jsonCmdReceive.containsKey("P")) {
+                initKalmanFilter(jsonCmdReceive["Q"], jsonCmdReceive["R"], jsonCmdReceive["P"]);
+            }
             break;
 	case CMD_SPEED_CTRL:	if (jsonCmdReceive.containsKey("T") &&
 														jsonCmdReceive.containsKey("L") &&

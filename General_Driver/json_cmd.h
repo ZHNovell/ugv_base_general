@@ -6,6 +6,10 @@
 // {"T":999}
 #define CMD_RESET_EMERGENCY 999
 
+// set Kalman filter params for pitch
+// {"T":1401,"Q":0.01,"R":0.1,"P":0.01}
+#define CMD_SET_KALMAN 1401
+
 #define FEEDBACK_BASE_INFO  1001
 #define FEEDBACK_IMU_DATA   1002
 // esp-now recv

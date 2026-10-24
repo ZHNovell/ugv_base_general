@@ -762,6 +762,16 @@ const char index_html[] PROGMEM = R"rawliteral(
         }
     }
     function movtionButton(spdL, spdR){
+        // Если обе скорости 0 — это Emergency Stop (кнопка STOP в центре джойстика)
+        if (spdL === 0 && spdR === 0) {
+            var jsonCmd = { "T": 0 }; // Emergency Stop
+            var jsonString = JSON.stringify(jsonCmd);
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "js?json=" + jsonString, true);
+            xhr.send();
+            return;
+        }
+        
         left_speed  = spdL*speed_rate;
         right_speed = spdR*speed_rate;
         send_heartbeat = 1;

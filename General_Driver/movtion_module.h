@@ -391,12 +391,11 @@ void rosCtrl(float rosX, float rosZ) {
 }
 
 void heartBeatCtrl() {
-  if (currentTimeMillis - lastCmdRecvTime > HEART_BEAT_DELAY) {
+  unsigned long now = millis();
+  if (now - lastCmdRecvTime > HEART_BEAT_DELAY) {
     if (!heartbeatStopFlag) {
       heartbeatStopFlag = true;
       setGoalSpeed(0, 0);
-      // leftCtrl(0);
-      // rightCtrl(0);
     }
   }
 }

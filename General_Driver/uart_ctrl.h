@@ -1,6 +1,14 @@
 void jsonCmdReceiveHandler(){
 	int cmdType = jsonCmdReceive["T"].as<int>();
 	switch(cmdType){
+        case CMD_EMERGENCY_STOP:
+            emergencyStopProcessing();
+            setGoalSpeed(0, 0);
+            ddsm_ctrl_loop_web(0, 0); // немедленная остановка
+            break;
+        case CMD_RESET_EMERGENCY:
+            heartbeatStopFlag = false;
+            break;
 	case CMD_SPEED_CTRL:	if (jsonCmdReceive.containsKey("T") &&
 														jsonCmdReceive.containsKey("L") &&
 														jsonCmdReceive.containsKey("R")){

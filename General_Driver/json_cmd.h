@@ -1,3 +1,11 @@
+// emergency stop.
+// {"T":0}
+#define CMD_EMERGENCY_STOP 0
+
+// reset emergency flag.
+// {"T":999}
+#define CMD_RESET_EMERGENCY 999
+
 #define FEEDBACK_BASE_INFO  1001
 #define FEEDBACK_IMU_DATA   1002
 // esp-now recv

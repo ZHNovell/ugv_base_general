@@ -69,6 +69,20 @@ StaticJsonDocument<512> jsonInfoHttp;
 // functions for http & web server.
 #include "http_server.h"
 
+// ============ FreeRTOS task for Gimbal Stabilization ============
+void gimbalStabilizerTask(void *pvParameters) {
+  TickType_t xLastWakeTime = xTaskGetTickCount();
+  const TickType_t xFrequency = pdMS_TO_TICKS(5); // 200 Hz
+
+  for (;;) {
+    if (steadyMode) {
+      gimbalSteady(steadyGoalY);
+    }
+    vTaskDelayUntil(&xLastWakeTime, xFrequency);
+  }
+}
+
+
 
 void moduleType_RoArmM2() {
   unsigned long curr_time = millis();
@@ -93,11 +107,22 @@ void moduleType_RoArmM2() {
 
 void moduleType_Gimbal() {
   getGimbalFeedback();
-  gimbalSteady(steadyGoalY);
+  // gimbalSteady is now handled by gimbalStabilizerTask
 }
 
 
 void setup() {
+  // Create FreeRTOS task for gimbal stabilization
+  xTaskCreatePinnedToCore(
+    gimbalStabilizerTask,
+    "GimbalPID",
+    4096,
+    NULL,
+    2,    // priority
+    NULL,
+    1     // core 1
+  );
+
   Serial.begin(115200);
   Wire.begin(S_SDA, S_SCL);
 //  while(!Serial) {}

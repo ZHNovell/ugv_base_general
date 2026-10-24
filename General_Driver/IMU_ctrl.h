@@ -1,5 +1,8 @@
 #include"IMU.h"
 
+#include <SimpleKalmanFilter.h>
+SimpleKalmanFilter kf_pitch(0.01, 0.1, 0.01); // Q, R, P
+
 // define GPIOs for IIC.
 EulerAngles stAngles;
 IMU_ST_SENSOR_DATA_FLOAT stGyroRawData;
@@ -29,7 +32,7 @@ void updateIMUData() {
 	gz = stGyroRawData.Z;
 
 	icm_roll = stAngles.roll;
-	icm_pitch = stAngles.pitch;
+	icm_pitch = kf_pitch.updateEstimate(stAngles.pitch);
 	icm_yaw = stAngles.yaw;
 
   temp = temperatureRead();

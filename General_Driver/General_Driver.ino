@@ -119,14 +119,10 @@ void moduleType_Gimbal() {
 }
 
 
-void checkOTA() {
+
+void runOtaCheck() {
   Serial.println("Checking for OTA updates...");
-  if (ota.checkForUpdate()) {
-    Serial.println("New version found! Updating...");
-    ota.update(); // ESP32 перезагрузится
-  } else {
-    Serial.println("No updates available.");
-  }
+  ota.checkForUpdate(); // Эта функция сама скачает и прошьёт, если есть новая версия
 }
 
 void setup() {

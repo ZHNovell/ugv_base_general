@@ -332,9 +332,9 @@ const char index_html[] PROGMEM = R"rawliteral(
                         <div>
                             <div id="device-gimbal-btn_A">
                                 <label><button name="speedbtn" class="small-btn" onmousedown="gimbalCtrl(1);" ontouchstart="gimbalCtrl(1);" onmouseup="gimbalCtrl(0);" ontouchend="gimbalCtrl(0);">UP</button></label>
-<label><button class="small-btn" onclick="checkOTA();">Check OTA</button></label>
+<label><button class="small-btn" onclick="runOtaCheck();">Check OTA</button></label>
 <script>
-function checkOTA() {
+function runOtaCheck() {
     fetch('/ota')
         .then(r => r.text())
         .then(t => alert(t))

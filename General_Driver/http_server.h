@@ -11,7 +11,7 @@ void webCtrlServer(){
   server.on("/", handleRoot);
 
   server.on("/ota", [](){
-    checkOTA();
+    runOtaCheck();
     server.send(200, "text/plain", "OTA check started. Check Serial monitor.");
   });
 

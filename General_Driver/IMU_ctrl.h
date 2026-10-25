@@ -2,8 +2,8 @@
 
 #include <SimpleKalmanFilter.h>
 SimpleKalmanFilter* kf_pitch = nullptr;
-float kf_pitch_Q = 0.01;
-float kf_pitch_R = 0.1;
+float kf_pitch_Q = 0.03;
+float kf_pitch_R = 0.05;
 float kf_pitch_P = 0.01;
 
 void initKalmanFilter(float Q, float R, float P) {

@@ -71,6 +71,15 @@ In this command, the s directive denotes a robot-type setting. The first digit, 
 3. Прошейте.
 
 **Важно:** Для стабилизации PT требуется установленная библиотека `SimpleKalmanFilter` (через Library Manager).
+## 🛑 Emergency Stop и Heartbeat
+
+*   **Emergency Stop (`{"T":0}`):** Мгновенная остановка моторов. Кнопка **STOP** в центре джойстика на ESP32 отправляет эту команду.
+*   **Heartbeat:** Если команды не приходят 3 секунды, робот автоматически останавливается (`heartBeatCtrl` использует `millis()`).
+
+## ⚙️ Стабилизация PT (FreeRTOS + Kalman)
+
+*   Стабилизация вынесена в отдельную задачу FreeRTOS (`gimbalStabilizerTask`, 200 Гц).
+*   **Kalman Filter** сглаживает `icm_pitch`. Параметры можно менять на лету: `{"T":1401,"Q":0.01,"R":0.1,"P":0.01}`.
 
 # License
 ugv_base_general for the Waveshare UGV Robots: an open source robotics platform for the Robots based on **General Driver**.

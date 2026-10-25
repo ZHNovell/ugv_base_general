@@ -10,6 +10,10 @@ void handleRoot(){
 void webCtrlServer(){
   server.on("/", handleRoot);
 
+  server.on("/version", [](){
+    server.send(200, "text/plain", FW_VERSION);
+  });
+
   server.on("/ota", [](){
     runOtaCheck();
     server.send(200, "text/plain", "OTA check started. Check Serial monitor.");

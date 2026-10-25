@@ -387,15 +387,18 @@ const char index_html[] PROGMEM = R"rawliteral(
                     <input type="text" id="jsonData" placeholder="Input json cmd here.">
                     <label><button class="small-btn btn-send" onclick="jsonSend();">SEND</button></label>
                 </div>
-                <div class="feedb-p" style="margin-top: 10px; display: flex; flex-wrap: nowrap; align-items: center; white-space: nowrap; overflow: hidden;">
-                    <label style="margin-right: 10px;"><button class="small-btn" onclick="runOtaCheck();">CHECK OTA UPDATE</button></label>
-                    <span id="ota_status" style="color: #4FF5C0; white-space: nowrap;">Firmware: <span id="fw_version">loading...</span></span>
+                <div class="feedb-p" style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <span id="ota_status" style="color: #4FF5C0;">Firmware: <span id="fw_version">loading...</span></span>
+                    <label><button class="small-btn" onclick="runOtaCheck();">CHECK OTA UPDATE</button></label>
                 </div>
                 <div id="ota_log" style="margin-top: 10px; padding: 10px; background: #1E212E; color: #ccc; font-family: monospace; font-size: 12px; max-height: 150px; overflow-y: auto; border-radius: 4px; display: none;"></div>
                 <script>
                 // Загружаем версию прошивки при загрузке страницы
                 fetch('/version')
-                    .then(r => r.text())
+                    .then(r => {
+                        if (!r.ok) throw new Error('HTTP ' + r.status);
+                        return r.text();
+                    })
                     .then(v => { document.getElementById('fw_version').innerText = v; })
                     .catch(e => { document.getElementById('fw_version').innerText = 'unknown'; });
 

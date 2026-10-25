@@ -1,6 +1,8 @@
 void runOtaCheck();
 
 #include <ArduinoJson.h>
+
+#define FW_VERSION "v1.0.4"  // МЕНЯЙ ЭТУ ВЕРСИЮ ПРИ КАЖДОМ РЕЛИЗЕ!
 StaticJsonDocument<256> jsonCmdReceive;
 StaticJsonDocument<256> jsonInfoSend;
 StaticJsonDocument<512> jsonInfoHttp;
@@ -72,11 +74,7 @@ StaticJsonDocument<512> jsonInfoHttp;
 #include "http_server.h"
 #include <MCM_GitHub_OTA.h>
 
-// --- GitHub OTA Settings ---
-#define GH_OWNER "ZHNovell"
-#define GH_REPO "ugv_base_general"
-#define FW_VERSION "v1.0.0"  // МЕНЯЙ ЭТУ ВЕРСИЮ ПРИ КАЖДОМ РЕЛИЗЕ!
-MCM_GitHub_OTA ota(false, true); // false=Ethernet, true=WiFi
+
 
 
 // ============ FreeRTOS task for Gimbal Stabilization ============

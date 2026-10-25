@@ -10,6 +10,11 @@ void handleRoot(){
 void webCtrlServer(){
   server.on("/", handleRoot);
 
+  server.on("/ota", [](){
+    checkOTA();
+    server.send(200, "text/plain", "OTA check started. Check Serial monitor.");
+  });
+
   server.on("/js", [](){
     String jsonCmdWebString = server.arg(0);
     deserializeJson(jsonCmdReceive, jsonCmdWebString);

@@ -68,6 +68,14 @@ StaticJsonDocument<512> jsonInfoHttp;
 
 // functions for http & web server.
 #include "http_server.h"
+#include <MCM_GitHub_OTA.h>
+
+// --- GitHub OTA Settings ---
+#define GH_OWNER "ZHNovell"
+#define GH_REPO "ugv_base_general"
+#define FW_VERSION "v1.0.0"  // МЕНЯЙ ЭТУ ВЕРСИЮ ПРИ КАЖДОМ РЕЛИЗЕ!
+MCM_GitHub_OTA ota(false, true); // false=Ethernet, true=WiFi
+
 
 // ============ FreeRTOS task for Gimbal Stabilization ============
 void gimbalStabilizerTask(void *pvParameters) {
@@ -111,6 +119,16 @@ void moduleType_Gimbal() {
 }
 
 
+void checkOTA() {
+  Serial.println("Checking for OTA updates...");
+  if (ota.checkForUpdate()) {
+    Serial.println("New version found! Updating...");
+    ota.update(); // ESP32 перезагрузится
+  } else {
+    Serial.println("No updates available.");
+  }
+}
+
 void setup() {
   // Create FreeRTOS task for gimbal stabilization
   xTaskCreatePinnedToCore(
@@ -124,6 +142,9 @@ void setup() {
   );
 
   Serial.begin(115200);
+  ota.begin(GH_OWNER, GH_REPO, FW_VERSION);
+  Serial.println("OTA initialized");
+
   Wire.begin(S_SDA, S_SCL);
 //  while(!Serial) {}
 

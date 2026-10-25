@@ -332,15 +332,7 @@ const char index_html[] PROGMEM = R"rawliteral(
                         <div>
                             <div id="device-gimbal-btn_A">
                                 <label><button name="speedbtn" class="small-btn" onmousedown="gimbalCtrl(1);" ontouchstart="gimbalCtrl(1);" onmouseup="gimbalCtrl(0);" ontouchend="gimbalCtrl(0);">UP</button></label>
-<label><button class="small-btn" onclick="runOtaCheck();">Check OTA</button></label>
-<script>
-function runOtaCheck() {
-    fetch('/ota')
-        .then(r => r.text())
-        .then(t => alert(t))
-        .catch(e => alert('OTA check failed: ' + e));
-}
-</script>
+
                             </div>
                         </div>
                         <br>
@@ -395,6 +387,27 @@ function runOtaCheck() {
                     <input type="text" id="jsonData" placeholder="Input json cmd here.">
                     <label><button class="small-btn btn-send" onclick="jsonSend();">SEND</button></label>
                 </div>
+                <div class="feedb-p" style="margin-top: 10px;">
+                    <label><button class="small-btn" onclick="runOtaCheck();">CHECK OTA UPDATE</button></label>
+                    <span id="ota_status" style="margin-left: 10px; color: #4FF5C0;">Firmware: v1.0.0</span>
+                </div>
+                <div id="ota_log" style="margin-top: 10px; padding: 10px; background: #1E212E; color: #ccc; font-family: monospace; font-size: 12px; max-height: 150px; overflow-y: auto; border-radius: 4px; display: none;"></div>
+                <script>
+                function runOtaCheck() {
+                    var logEl = document.getElementById('ota_log');
+                    logEl.style.display = 'block';
+                    logEl.innerHTML = 'Checking for OTA updates...<br>';
+                    
+                    fetch('/ota')
+                        .then(r => r.text())
+                        .then(t => {
+                            logEl.innerHTML += t + '<br>';
+                        })
+                        .catch(e => {
+                            logEl.innerHTML += 'OTA check failed (connection lost due to reboot): ' + e + '<br>';
+                        });
+                }
+                </script>
                 <div class="info-box json-cmd-info">
                     <div>
                         <p>SPEED_CTRL: <span id="cmd1" class="cmd-value">{"T":1,"L":0.5,"R":0.5}</span></p>

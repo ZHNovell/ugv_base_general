@@ -1,3 +1,5 @@
+void runOtaCheck();
+
 #include <ArduinoJson.h>
 StaticJsonDocument<256> jsonCmdReceive;
 StaticJsonDocument<256> jsonInfoSend;

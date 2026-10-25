@@ -74,6 +74,12 @@ StaticJsonDocument<512> jsonInfoHttp;
 #include "http_server.h"
 #include <MCM_GitHub_OTA.h>
 
+// --- GitHub OTA Settings ---
+#define GH_OWNER "ZHNovell"
+#define GH_REPO "ugv_base_general"
+MCM_GitHub_OTA ota(false, true); // false=Ethernet, true=WiFi
+
+
 
 
 
